@@ -1,6 +1,14 @@
-"use strict ";
+// "use strict ";
+const searchForm = document.getElementById("searchForm");
+const searchInput = document.getElementById("searchInput");
+const resultsContainer = document.getElementById("results");
+const randomBtn = document.getElementById("randomBtn");
+const randomContainer = document.getElementById("randomRecipe");
+const favoritesContainer = document.getElementById("favoritesContainer");
+const detailsContainer = document.getElementById("recipeDetails");
 
-// ========== Search Recipes ==========
+
+// // ========== Search Recipes ==========
 const searchBtn = document.getElementById("searchBtn");
 if (searchBtn) {
   searchBtn.addEventListener("click", async () => {
@@ -25,8 +33,7 @@ if (searchBtn) {
   });
 }
 
-// ========== Random Recipe ==========
-const randomBtn = document.getElementById("randomBtn");
+// // ========== Random Recipe ==========
 if (randomBtn) {
   randomBtn.addEventListener("click", async () => {
     const res = await fetch("/recipes/random");
@@ -36,6 +43,7 @@ if (randomBtn) {
     randomResult.innerHTML = `
     <div class="recipe-card">
       <h2>${recipe.title}</h2>
+         <p>${recipe.instructions?.substring(0, 100)}</p>
       <img src="${recipe.image}" width="200"/>
       <p>${recipe.instructions || "No instructions available"}</p>
       <ul>${recipe.ingredients.map((ing) => `<li>${ing}</li>`).join("")}</ul>
@@ -44,32 +52,51 @@ if (randomBtn) {
   });
 }
 
-// ========== Favorites ==========
-function saveFavorite(title, image) {
-  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  favorites.push({ title, image });
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  alert("Recipe saved!");
+// // ========== Favorites ==========
+async function saveFavorite(title, image) {
+  try {
+    const res = await fetch("/api/recipes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, image })
+    });
+    const data = await res.json();
+    alert("Recipe saved 🟢");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to save recipe.");
+  }
 }
 
-const favoritesList = document.getElementById("favoritesList");
-if (favoritesList) {
-  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  favoritesList.innerHTML = "";
-  favorites.forEach((f, index) => {
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <h3>${f.title}</h3>
-      <img src="${f.image}" width="200"/>
-      <button onclick="removeFavorite(${index})">Remove</button>
-    `;
-    favoritesList.appendChild(div);
-  });
+async function loadFavorites() {
+  try {
+    const res = await fetch("/api/recipes/all"); // endpoint يرجع كل الوصفات
+    const favorites = await res.json();
+    const favoritesList = document.getElementById("favoritesList");
+    favoritesList.innerHTML = "";
+    favorites.forEach((f, index) => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <h3>${f.title}</h3>
+        <img src="${f.image}" width="200"/>
+        <button onclick="removeFavorite(${f.id})">Remove</button>
+      `;
+      favoritesList.appendChild(div);
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-function removeFavorite(index) {
-  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  favorites.splice(index, 1);
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  location.reload();
+loadFavorites(); // استدعائها عند تحميل الصفحة
+
+async function removeFavorite(id) {
+  try {
+    await fetch(`/api/recipes/${id}`, { method: "DELETE" });
+    alert("Recipe removed from database!");
+    loadFavorites(); // إعادة تحميل المفضلات بعد الحذف
+  } catch (err) {
+    console.error(err);
+  }
 }
+
