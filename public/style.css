@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: url("https://images.unsplash.com/photo-1504674900247-0877df9cc836") no-repeat center center/cover;
+  background: url("https://images.pexels.com/photos/24866509/pexels-photo-24866509.jpeg") no-repeat center center/cover;
   color: #333;
   min-height: 100vh;
   
@@ -26,13 +26,13 @@ nav a {
 }
 
 nav a:hover {
-  color: #f39c12;
+  color: #964646;
 }
 
 /* Headings*/
 h1, h2, h3 {
   text-align: center;
-  color: #15283b;
+  color: #bb8b8b;
   margin-bottom: 40px;
 
 }
@@ -56,7 +56,7 @@ button {
   display: block;
   margin: 10px auto;
   padding: 10px 20px;
-  background: #f39c12;
+  background: #964646;
   color: white;
   border: none;
   border-radius: 5px;
@@ -66,7 +66,7 @@ button {
 }
 
 button:hover {
-  background: #e67e22;
+  background: #964646;
   background-color: burlywood;
 }
 
@@ -104,6 +104,36 @@ button:hover {
   display: block;
 
 
+}
+#username{
+  display: block;
+  margin: 2px auto;
+  padding: 5px;
+  width: 15%;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 18px;}
+
+input[type="email"] {
+
+    display: block;
+  margin: 2px auto;
+  padding: 5px;
+  width: 15%;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+input[type="password"] {
+
+    display: block;
+  margin: 2px auto;
+  padding: 5px;
+  width: 15%;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 18px;
 }
 
 /*Responsive*/

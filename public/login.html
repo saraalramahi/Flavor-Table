@@ -3,19 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
-    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="style.css"/>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <center>
-  <h2>Login</h2>
+
+   <nav>
+    <a href="index.html">Search Recipes</a>
+    <a href="randomRecipes.html">Random Recipe</a>
+    <a href="favorites.html">Favorites</a>
+    <a href="register.html">Register</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <h1>Login</h1>
   <form id="loginForm" >
     <input type="email" id="email" placeholder="Email" required /></br>
     <input type="password" id="password" placeholder="Password" required /></br></br>
     <button type="submit">Login</button>
   </form>
-    </center>
   <script>
     const loginForm = document.getElementById("loginForm");
 
